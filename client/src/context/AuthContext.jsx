@@ -4,14 +4,6 @@ import axios from "axios";
 
 const Context = createContext(null);
 
-const AuthContext = {
-  user: null,
-  streamChat: null,
-  signup: null,
-  login: null,
-  logout: null,
-};
-
 export function useAuth() {
   return useContext(Context);
 }
@@ -19,7 +11,7 @@ export function useAuth() {
 export function AuthProvider({ children }) {
   const signup = useMutation({
     mutationFn: (user) => {
-      return axios.post(`${import.meta.env.VITE_SERVER_URL}/signup`, user);
+      return axios.post(`${impport.meta.env.VITE_SERVER_URL}/signup`, user); // might give error
     },
   });
 

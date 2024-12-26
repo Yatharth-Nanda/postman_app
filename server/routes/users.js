@@ -18,6 +18,6 @@ export async function userRoutes(app) {
       return res.status(400).send("User ID has already been taken  ");
     }
 
-    streamChat.upsertUser({ id, name, image });
+    await streamChat.upsertUser({ id, name, image });
   });
 }
