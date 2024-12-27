@@ -5,6 +5,7 @@ import { Login } from "./pages/Login";
 import { Signup } from "./pages/Signup";
 import { RootLayout } from "./pages/layouts/RootLayout";
 import { Home } from "./pages/Home";
+import { NewChannel } from "./pages/channel/new";
 
 // ContextWrapper component to provide AuthProvider context
 function ContextWrapper() {
@@ -29,7 +30,7 @@ export const router = createBrowserRouter([
             children: [
               {
                 path: "new",
-                element: <h1>New Channel</h1>,
+                element: <NewChannel />,
               },
             ],
           }, // Signup page

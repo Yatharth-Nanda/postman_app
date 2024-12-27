@@ -3,7 +3,8 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { StreamChat } from "stream-chat";
-import { useLocalStorage } from "../hooks/useLocalStorage";
+import { useLocalStorage } from "../hooks/useLocalStorage"; // Ensure this import is correct
+
 const Context = createContext(null);
 
 export function useAuth() {
@@ -36,15 +37,28 @@ export function AuthProvider({ children }) {
   const login = useMutation({
     mutationFn: (id) => {
       return axios
-        .post(`${import.meta.env.VITE_SERVER_URL}/login`, id)
+        .post(`${import.meta.env.VITE_SERVER_URL}/login`, { id })
         .then((res) => {
           const { token, user } = res.data;
           return { token, user };
         });
     },
     onSuccess(data) {
+      console.log("Login successful:", data);
       setUser(data.user);
       setToken(data.token);
+    },
+  });
+
+  const logout = useMutation({
+    mutationFn: () => {
+      return axios.post(`${import.meta.env.VITE_SERVER_URL}/logout`, { token });
+    },
+    onSuccess() {
+      setUser(undefined);
+      setToken(undefined);
+      setStreamChat(undefined);
+      navigate("/login");
     },
   });
 
@@ -70,9 +84,10 @@ export function AuthProvider({ children }) {
     };
   }, [token, user]);
 
-  //why are we adding streamchat here
   return (
-    <Context.Provider value={{ signup, login, user, streamChat }}>
+    <Context.Provider
+      value={{ signup, login, logout, user, token, streamChat }}
+    >
       {children}
     </Context.Provider>
   );

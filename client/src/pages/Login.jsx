@@ -5,7 +5,7 @@ import { useAuth } from "../context/AuthContext";
 import { Navigate } from "react-router-dom";
 
 export function Login() {
-  const { login, user } = useAuth(); // Destructure login from useAuth
+  const { login, user } = useAuth(); // Destructure login and user from useAuth
   const usernameRef = useRef(null);
 
   console.log("Login component rendered");
@@ -16,7 +16,10 @@ export function Login() {
     return <Navigate to="/" />;
   }
 
+  console.log("User is here");
+
   function handleSubmit(event) {
+    console.log("handleSubmit called");
     event.preventDefault();
 
     console.log("Form submitted");
@@ -34,7 +37,7 @@ export function Login() {
     }
 
     console.log("Submitting:", { username });
-    login.mutate({ id: username });
+    login.mutate(username); // Pass the username directly
   }
 
   return (
