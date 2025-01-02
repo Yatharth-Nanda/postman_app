@@ -3,17 +3,19 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { StreamChat } from "stream-chat";
-import { useLocalStorage } from "../hooks/useLocalStorage"; // Ensure this import is correct
+import { useLocalStorage } from "../hooks/useLocalStorage"; // Ensure this import is correct/
+import { StreamVideoClient } from "@stream-io/video-react-sdk";
 
 const Context = createContext(null);
 
 export function useAuth() {
-  return useContext(Context);
+  return useContext(Context); //any variables part of the context are passed down
 }
 
 export function useLoggedInAuth() {
   const context = useContext(Context);
   if (!context.user) {
+    // if it is null
     throw new Error("User is not logged in");
   }
   return context;
@@ -24,13 +26,14 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useLocalStorage("user");
   const [token, setToken] = useLocalStorage("token");
   const [streamChat, setStreamChat] = useState(null);
+ 
 
   const signup = useMutation({
     mutationFn: (user) => {
       return axios.post(`${import.meta.env.VITE_SERVER_URL}/signup`, user);
     },
     onSuccess() {
-      navigate("/login");
+      navigate("/login"); //calling the hook
     },
   });
 
@@ -62,6 +65,7 @@ export function AuthProvider({ children }) {
     },
   });
 
+  //sets up a new stream chat instance to be used by all children wrapped in this context provider
   useEffect(() => {
     if (token == null || user == null) return;
     const chat = new StreamChat(import.meta.env.VITE_STREAM_API_KEY);
@@ -84,9 +88,17 @@ export function AuthProvider({ children }) {
     };
   }, [token, user]);
 
+
   return (
     <Context.Provider
-      value={{ signup, login, logout, user, token, streamChat }}
+      value={{
+        signup,
+        login,
+        logout,
+        user,
+        token,
+        streamChat,
+      }} //passing all these as context
     >
       {children}
     </Context.Provider>

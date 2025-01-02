@@ -13,7 +13,7 @@ import { Button } from "../components/Button";
 import { useLoggedInAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-export function Home() {
+export function CurrentChats() {
   const { user, streamChat } = useLoggedInAuth();
 
   if (streamChat == null) return <LoadingIndicator />;

@@ -4,8 +4,10 @@ import { AuthLayout } from "./pages/layouts/AuthLayout";
 import { Login } from "./pages/Login";
 import { Signup } from "./pages/Signup";
 import { RootLayout } from "./pages/layouts/RootLayout";
-import { Home } from "./pages/Home";
+import { CurrentChats } from "./pages/CurrentChats";
 import { NewChannel } from "./pages/channel/new";
+import { PatientHome } from "./components/PatientHome"; // Import the PatientHome component
+import { VideoChat } from "./pages/VideoChat"; // Import the VideoChat component
 
 // ContextWrapper component to provide AuthProvider context
 function ContextWrapper() {
@@ -22,18 +24,30 @@ export const router = createBrowserRouter([
     element: <ContextWrapper />, // Wraps the routes with AuthProvider context
     children: [
       {
-        element: <RootLayout />, // Layout for authentication-related pages
+        element: <RootLayout />, // Layout for authenticated pages
         children: [
-          { index: true, element: <Home /> }, // Login page
+          // Home page
           {
             path: "channel",
             children: [
               {
                 path: "new",
-                element: <NewChannel />,
+                element: <NewChannel />, // New Channel page
               },
             ],
-          }, // Signup page
+          },
+          {
+            path: "patient",
+            element: <PatientHome />, // Patient Home page
+          },
+          {
+            path: "chat",
+            element: <CurrentChats />, // Patient Home page
+          },
+          {
+            path: "vidchat",
+            element: <VideoChat />, // Patient Home page
+          },
         ],
       },
       {

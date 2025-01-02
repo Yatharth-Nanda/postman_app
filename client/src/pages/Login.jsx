@@ -5,7 +5,7 @@ import { useAuth } from "../context/AuthContext";
 import { Navigate } from "react-router-dom";
 
 export function Login() {
-  const { login, user } = useAuth(); // Destructure login and user from useAuth
+  const { login, user } = useAuth(); // Destructure login and user from useAuth ,gets it from context
   const usernameRef = useRef(null);
 
   console.log("Login component rendered");
@@ -13,7 +13,7 @@ export function Login() {
 
   if (user != null) {
     console.log("User is already logged in, redirecting to home");
-    return <Navigate to="/" />;
+    return <Navigate to="/patient" />;
   }
 
   console.log("User is here");
