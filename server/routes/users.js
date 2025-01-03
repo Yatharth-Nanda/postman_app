@@ -2,6 +2,8 @@ import { config } from "dotenv";
 import fastify from "fastify";
 import { StreamChat } from "stream-chat";
 
+// need to fix populating token map from already existing logins
+
 config();
 
 const streamChat = StreamChat.getInstance(
@@ -83,13 +85,16 @@ export async function userRoutes(app) {
 
   app.post("/logout", async (req, res) => {
     const { token } = req.body;
+    console.log("Received logout request:", req.body);
 
     if (token == null || token === "") {
+      console.log("Invalid input:", { token });
       return res.status(400).send("Invalid token");
     }
 
     const id = TOKEN_USER_ID_MAP.get(token);
     if (id == null) {
+      console.log("Invalid map input:", { token });
       return res.status(400).send("Invalid token");
     }
 

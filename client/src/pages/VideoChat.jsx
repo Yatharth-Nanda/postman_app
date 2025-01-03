@@ -42,7 +42,7 @@ export function VideoChat() {
   }, [user, token]);
 
   if (!videoClient || !call) {
-    return <div>Loading...</div>;
+    return <div>Loading...</div>; // improve loading indicator
   }
 
   return (

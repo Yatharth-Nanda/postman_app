@@ -12,6 +12,8 @@ import {
 import { Button } from "../components/Button";
 import { useLoggedInAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { Box } from "@mui/system";
+import { ButtonAppBar } from "../components/ButtonAppbar";
 
 export function CurrentChats() {
   const { user, streamChat } = useLoggedInAuth();
@@ -19,20 +21,51 @@ export function CurrentChats() {
   if (streamChat == null) return <LoadingIndicator />;
 
   return (
-    <Chat client={streamChat}>
-      <ChannelList
-        List={Channels}
-        sendChannelsToList
-        filters={{ members: { $in: [user.id] } }}
-      />
-      <Channel>
-        <Window>
-          <ChannelHeader />
-          <MessageList />
-          <MessageInput />
-        </Window>
-      </Channel>
-    </Chat>
+    <Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+      <ButtonAppBar />
+      <Box
+        sx={{
+          flexGrow: 1,
+          display: "flex",
+          flexDirection: "row",
+          overflow: "hidden",
+        }}
+      >
+        <Chat client={streamChat}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              flexGrow: 1,
+              height: "100%",
+            }}
+          >
+            <Box
+              sx={{
+                width: "300px",
+                borderRight: "1px solid #ddd",
+                height: "100%",
+              }}
+            >
+              <ChannelList
+                List={Channels}
+                sendChannelsToList
+                filters={{ members: { $in: [user.id] } }}
+              />
+            </Box>
+            <Box sx={{ flexGrow: 1, height: "100%" }}>
+              <Channel>
+                <Window>
+                  <ChannelHeader />
+                  <MessageList />
+                  <MessageInput />
+                </Window>
+              </Channel>
+            </Box>
+          </Box>
+        </Chat>
+      </Box>
+    </Box>
   );
 }
 
@@ -42,7 +75,7 @@ function Channels({ loadedChannels }) {
   const { setActiveChannel, channel: activeChannel } = useChatContext();
 
   return (
-    <div className="w-60 flex flex-col gap-4 m-3 h-full">
+    <div className="w-full flex flex-col  h-full">
       <Button onClick={() => navigate("/channel/new")}>New Conversation</Button>
       <hr className="border-gray-500" />
       {loadedChannels != null && loadedChannels.length > 0

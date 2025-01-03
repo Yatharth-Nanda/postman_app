@@ -26,7 +26,6 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useLocalStorage("user");
   const [token, setToken] = useLocalStorage("token");
   const [streamChat, setStreamChat] = useState(null);
- 
 
   const signup = useMutation({
     mutationFn: (user) => {
@@ -55,6 +54,7 @@ export function AuthProvider({ children }) {
 
   const logout = useMutation({
     mutationFn: () => {
+      console.log("Logging out");
       return axios.post(`${import.meta.env.VITE_SERVER_URL}/logout`, { token });
     },
     onSuccess() {
@@ -87,7 +87,6 @@ export function AuthProvider({ children }) {
       });
     };
   }, [token, user]);
-
 
   return (
     <Context.Provider

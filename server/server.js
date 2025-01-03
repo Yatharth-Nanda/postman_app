@@ -7,7 +7,7 @@ import { userRoutes } from "./routes/users.js";
 
 const app = fastify();
 
-app.register(cors, { origin: process.env.CLIENT_URL });
+app.register(cors, { origin: true }); // change later
 app.register(userRoutes);
 
 app.listen({ port: parseInt(process.env.PORT) });

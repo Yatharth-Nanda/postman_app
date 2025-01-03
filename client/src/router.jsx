@@ -6,7 +6,7 @@ import { Signup } from "./pages/Signup";
 import { RootLayout } from "./pages/layouts/RootLayout";
 import { CurrentChats } from "./pages/CurrentChats";
 import { NewChannel } from "./pages/channel/new";
-import { PatientHome } from "./components/PatientHome"; // Import the PatientHome component
+import { PatientHome } from "./pages/PatientHome"; // Import the PatientHome component
 import { VideoChat } from "./pages/VideoChat"; // Import the VideoChat component
 
 // ContextWrapper component to provide AuthProvider context
